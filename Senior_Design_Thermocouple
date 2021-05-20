@@ -1,0 +1,155 @@
+#include "max6675.h"
+//#include <Wire.h>
+//#define slave_add 4
+//#define answer_size 15
+
+//int thermoDO_15 = 13; // Test Section Inlet Temp
+//int thermoCS_15 = 12;
+//int thermoCLK_15 = 11;
+//MAX6675 thermocouple_15(thermoCLK_15, thermoCS_15, thermoDO_15);
+//
+//int thermoDO_14 = 10; // Test Section Inlet Temp
+//int thermoCS_14 = 9;
+//int thermoCLK_14 = 8;
+//MAX6675 thermocouple_14(thermoCLK_14, thermoCS_14, thermoDO_14);
+//
+//int thermoDO_13 = 7; // Test Section Inlet Temp
+//int thermoCS_13 = 6;
+//int thermoCLK_13 = 5;
+//MAX6675 thermocouple_13(thermoCLK_13, thermoCS_13, thermoDO_13);
+//
+//int thermoDO_12 = 4; // Test Section Inlet Temp
+//int thermoCS_12 = 3;
+//int thermoCLK_12 = 2;
+//MAX6675 thermocouple_12(thermoCLK_12, thermoCS_12, thermoDO_12);
+
+int thermoDO_11 = 26; // Test Section Inlet Temp
+int thermoCS_11 = 24;
+int thermoCLK_11 = 22;
+MAX6675 thermocouple_11(thermoCLK_11, thermoCS_11, thermoDO_11);
+
+int thermoDO_10 = 23; // Test Section Inlet Temp
+int thermoCS_10 = 25;
+int thermoCLK_10 = 27;
+MAX6675 thermocouple_10(thermoCLK_10, thermoCS_10, thermoDO_10);
+
+int thermoDO_09 = 29; // Test Section Inlet Temp
+int thermoCS_09 = 31;
+int thermoCLK_09 = 33;
+MAX6675 thermocouple_09(thermoCLK_09, thermoCS_09, thermoDO_09);
+
+int thermoDO_08 = 47; // Test Section Inlet Temp
+int thermoCS_08 = 42;
+int thermoCLK_08 = 46;
+MAX6675 thermocouple_08(thermoCLK_08, thermoCS_08, thermoDO_08);
+
+int thermoDO_07 = 53; // Test Section Inlet Temp
+int thermoCS_07 = 51;
+int thermoCLK_07 = 49;
+MAX6675 thermocouple_07(thermoCLK_07, thermoCS_07, thermoDO_07);
+
+int thermoDO_06 = 52; // Test Section Inlet Temp
+int thermoCS_06 = 50;
+int thermoCLK_06 = 48;
+MAX6675 thermocouple_06(thermoCLK_06, thermoCS_06, thermoDO_06);
+
+int thermoDO_05 = A14; // Test Section Inlet Temp
+int thermoCS_05 = A13;
+int thermoCLK_05 = A12;
+MAX6675 thermocouple_05(thermoCLK_05, thermoCS_05, thermoDO_05);
+
+int thermoDO_04 = A11; // Test Section Inlet Temp
+int thermoCS_04 = A10;
+int thermoCLK_04 = A9;
+MAX6675 thermocouple_04(thermoCLK_04, thermoCS_04, thermoDO_04);
+
+int thermoDO_03 = A8; // Test Section Inlet Temp
+int thermoCS_03 = A7;
+int thermoCLK_03 = A6;
+MAX6675 thermocouple_03(thermoCLK_03, thermoCS_03, thermoDO_03);
+
+int thermoDO_02 = A5; // Test Section Inlet Temp
+int thermoCS_02 = A4;
+int thermoCLK_02 = A3;
+MAX6675 thermocouple_02(thermoCLK_02, thermoCS_02, thermoDO_02);
+
+int thermoDO_01 = A2; // Test Section Inlet Temp
+int thermoCS_01 = A1;
+int thermoCLK_01 = A0;
+MAX6675 thermocouple_01(thermoCLK_01, thermoCS_01, thermoDO_01);
+
+void setup() {
+  // put your setup code here, to run once:
+//  Wire.begin(slave_add);
+  Serial.begin(9600);
+  delay(500);  
+
+//  Wire.onRequest(requestEvent);
+}
+
+void loop()
+{
+//   float T_15 = thermocouple_15.readCelsius();
+//   Serial.print("T_15 = ");
+//   Serial.println(T_15);
+//
+//   float T_14 = thermocouple_14. readCelsius();
+//   Serial.print("T_14 = ");
+//   Serial.println(T_14);
+//
+//   float T_13 = thermocouple_13.readCelsius();
+//   Serial.print("T_13 = ");
+//   Serial.println(T_13);
+//
+//   float T_12 = thermocouple_12.readCelsius();
+//   Serial.print("T_12 = ");
+//   Serial.println(T_12);
+
+   float T_11 = thermocouple_11.readCelsius();
+   Serial.print("T_11 = ");
+   Serial.println(T_11);
+
+   float T_10 = thermocouple_10.readCelsius();
+   Serial.print("T_10 = ");
+   Serial.println(T_10);
+
+   float T_09 = thermocouple_09.readCelsius();
+   Serial.print("T_09 = ");
+   Serial.println(T_09);
+
+   float T_08 = thermocouple_08.readCelsius();
+   Serial.print("T_08 = ");
+   Serial.println(T_08);
+
+   float T_07 = thermocouple_07.readCelsius();
+   Serial.print("T_07 = ");
+   Serial.println(T_07);
+
+   float T_06 = thermocouple_06.readCelsius();
+   Serial.print("T_06 = ");
+   Serial.println(T_06); 
+
+   float T_05 = thermocouple_05.readCelsius();
+   Serial.print("T_05 = ");
+   Serial.println(T_05);  
+
+   float T_04 = thermocouple_04.readCelsius();
+   Serial.print("T_04 = ");
+   Serial.println(T_04);  
+
+   float T_03 = thermocouple_03.readCelsius();
+   Serial.print("T_03 = ");
+   Serial.println(T_03);
+
+   float T_02 = thermocouple_02.readCelsius();
+   Serial.print("T_02 = ");
+   Serial.println(T_02);
+
+   float T_01 = thermocouple_01.readCelsius();
+   Serial.print("T_01 = ");
+   Serial.println(T_01);
+
+   Serial.println();
+
+   delay(10000);
+}
