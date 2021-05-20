@@ -1,0 +1,158 @@
+#include <Adafruit_MAX31865.h>
+
+int CS_1 = 47;
+int SDI_1 = 49;
+int SDO_1 = 51;
+int CLK_1 = 53;
+
+int CS_2 = 46;
+int SDI_2 = 48;
+int SDO_2 = 50;
+int CLK_2 = 52;
+
+// Use software SPI: CS, DI, DO, CLK
+Adafruit_MAX31865 RTDo_1 = Adafruit_MAX31865(CS_1, SDI_1, SDO_1, CLK_1);
+Adafruit_MAX31865 RTDo_2 = Adafruit_MAX31865(CS_2, SDI_2, SDO_2, CLK_2);
+//Adafruit_MAX31865 RTDo_3 = Adafruit_MAX31865(CS_3, SDI_3, SDO_3, CLK_3);
+
+// use hardware SPI, just pass in the CS pin
+//Adafruit_MAX31865 thermo = Adafruit_MAX31865(10);
+
+// The value of the Rref resistor. Use 430.0 for PT100 and 4300.0 for PT1000
+#define RREF 430.0
+// The 'nominal' 0-degrees-C resistance of the sensor
+// 100.0 for PT100, 1000.0 for PT1000
+#define RNOMINAL  100.0
+
+void setup() {
+  Serial.begin(115200);
+
+  RTDo_1.begin(MAX31865_2WIRE);  // set to 2WIRE or 4WIRE as necessary
+  RTDo_2.begin(MAX31865_2WIRE);
+//  RTDo_3.begin(MAX31865_2WIRE);
+}
+
+void loop() {
+
+  uint16_t rtd_1 = RTDo_1.readRTD();
+  uint16_t rtd_2 = RTDo_2.readRTD();
+//  uint16_t rtd_3 = RTDo_3.readRTD();
+
+  Serial.print("RTD 1 value: "); Serial.println(rtd_1);
+  float ratio_1 = rtd_1;
+  ratio_1 /= 32768;
+  Serial.print("Ratio_1 = "); Serial.println(ratio_1,8);
+  Serial.print("Resistance_1 = "); Serial.println(RREF*ratio_1,8);
+  Serial.print("Temperature_1 = "); Serial.println(RTDo_1.temperature(RNOMINAL, RREF));
+      
+  Serial.print("RTD 2 value: "); Serial.println(rtd_2);
+  float ratio_2 = rtd_2;
+  ratio_2 /= 32768;
+  Serial.print("Ratio_2 = "); Serial.println(ratio_2,8);
+  Serial.print("Resistance_2 = "); Serial.println(RREF*ratio_2,8);
+  Serial.print("Temperature_2 = "); Serial.println(RTDo_2.temperature(RNOMINAL, RREF));
+        
+//  Serial.print("RTD 3 value: "); Serial.println(rtd_3);
+//  float ratio_3 = rtd_3;
+//  ratio_3 /= 32768;
+//  Serial.print("Ratio_3 = "); Serial.println(ratio_3,8);
+//  Serial.print("Resistance_3 = "); Serial.println(RREF*ratio_3,8);
+//  Serial.print("Temperature_3 = "); Serial.println(RTDo_3.temperature(RNOMINAL, RREF));
+
+  // Check and print any faults
+  uint8_t fault_1 = RTDo_1.readFault();
+  if (fault_1)
+  {
+    Serial.print("Fault 0x"); Serial.println(fault_1, HEX);
+    if (fault_1 & MAX31865_FAULT_HIGHTHRESH)
+    {
+      Serial.println("RTD High Threshold"); 
+    }
+    if (fault_1 & MAX31865_FAULT_LOWTHRESH)
+    {
+      Serial.println("RTD Low Threshold"); 
+    }
+    if (fault_1 & MAX31865_FAULT_REFINLOW)
+    {
+      Serial.println("REFIN- > 0.85 x Bias"); 
+    }
+    if (fault_1 & MAX31865_FAULT_REFINHIGH)
+    {
+      Serial.println("REFIN- < 0.85 x Bias - FORCE- open"); 
+    }
+    if (fault_1 & MAX31865_FAULT_RTDINLOW)
+    {
+      Serial.println("RTDIN- < 0.85 x Bias - FORCE- open"); 
+    }
+    if (fault_1 & MAX31865_FAULT_OVUV)
+    {
+      Serial.println("Under/Over voltage"); 
+    }
+    RTDo_1.clearFault();
+  }
+  // Check and print any faults
+  uint8_t fault_2 = RTDo_2.readFault();
+  if (fault_2)
+  {
+    Serial.print("Fault 0x"); Serial.println(fault_2, HEX);
+    if (fault_2 & MAX31865_FAULT_HIGHTHRESH)
+    {
+      Serial.println("RTD High Threshold"); 
+    }
+    if (fault_2 & MAX31865_FAULT_LOWTHRESH)
+    {
+      Serial.println("RTD Low Threshold"); 
+    }
+    if (fault_2 & MAX31865_FAULT_REFINLOW)
+    {
+      Serial.println("REFIN- > 0.85 x Bias"); 
+    }
+    if (fault_2 & MAX31865_FAULT_REFINHIGH)
+    {
+      Serial.println("REFIN- < 0.85 x Bias - FORCE- open"); 
+    }
+    if (fault_2 & MAX31865_FAULT_RTDINLOW)
+    {
+      Serial.println("RTDIN- < 0.85 x Bias - FORCE- open"); 
+    }
+    if (fault_2 & MAX31865_FAULT_OVUV)
+    {
+      Serial.println("Under/Over voltage"); 
+    }
+    RTDo_2.clearFault();
+  }
+//  Check and print any faults
+//  uint8_t fault = RTDo_3.readFault();
+//  if (fault)
+//  {
+//    Serial.print("Fault 0x"); Serial.println(fault, HEX);
+//    if (fault & MAX31865_FAULT_HIGHTHRESH)
+//    {
+//      Serial.println("RTD High Threshold"); 
+//    }
+//    if (fault & MAX31865_FAULT_LOWTHRESH)
+//    {
+//      Serial.println("RTD Low Threshold"); 
+//    }
+//    if (fault & MAX31865_FAULT_REFINLOW)
+//    {
+//      Serial.println("REFIN- > 0.85 x Bias"); 
+//    }
+//    if (fault & MAX31865_FAULT_REFINHIGH)
+//    {
+//      Serial.println("REFIN- < 0.85 x Bias - FORCE- open"); 
+//    }
+//    if (fault & MAX31865_FAULT_RTDINLOW)
+//    {
+//      Serial.println("RTDIN- < 0.85 x Bias - FORCE- open"); 
+//    }
+//    if (fault & MAX31865_FAULT_OVUV)
+//    {
+//      Serial.println("Under/Over voltage"); 
+//    }
+//    RTDo_3.clearFault();
+//  }
+  
+  Serial.println();
+  delay(10000);
+}
