@@ -1,0 +1,95 @@
+// Wire Master Writer
+// by Nicholas Zambetti <http://www.zambetti.com>
+// Created 29 March 2006
+
+// https://learn.adafruit.com/thermocouple/
+
+#include <Wire.h>
+#include "max6675.h"
+
+double resolution = 5/1024;
+
+int enable_pin = 2; // Kills Circuit
+
+int probe_1_V = A0; // Reads the RTD for humidifier
+int probe_2_V = A1; // Reads the RTD for inlet water temp
+int probe_3_V = A2; // Reads the RTD for outlet water temp
+
+void setup() {
+
+  Wire.begin(); // join i2c bus (address optional for master)
+  Serial.begin(9600);
+  // wait for MAX chip to stabilize
+  delay(500);
+}
+
+void loop() {
+
+   if (heater_1_temp > 152) {
+    digitalWrite(enable_pin, LOW)
+   }
+   if (inlet_temp > 502) {
+    digitalWrite(enable_pin, LOW)
+   }
+   if (humidifier_temp > 155) {
+    digitalWrite(enable_pin, LOW)
+   }
+
+    float RTD_T_Ref[23] = {-5,0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105};
+    float RTD_R_Ref[23] = {98.04,100,101.95,103.90,105.85,107.79,109.74,111.67,113.61,115.54,117.47,119.40,121.32,123.24,125.16,127.08,128.99,130.90,132.80,134.71,136.61,138.51,140.40};
+    
+    probe_1_R = R_1*(1/(((analogRead(probe_1_V)*resolution)/5)-1));
+    probe_2_R = R_2*(1/(((analogRead(probe_2_V)*resolution)/5)-1));
+    probe_3_R = R_3*(1/(((analogRead(probe_3_V)*resolution)/5)-1));
+    
+    for (int i=0;i=21;i++){
+     if((i=0)&&(RTD_R_Ref[i] < probe_1_R)){
+      probe_1_T = "Undefined"
+     }
+     else if((i>=1)&&(RTD_R_Ref[i] < probe_1_R)){
+      R_2 = RTD_R_Ref[i+1];
+      T_2 = RTD_T_Ref[i+1];
+      R_1 = RTD_R_Ref[i];
+      T_1 = RTD_R_Ref[i];
+      probe_1_T = T_2 - (((R_2 - probe_1_R)/(R_2 - R_1))*(T_2 - T_1));
+     }
+     else if((i>=1)&&(RTD_R_Ref[i] > probe_1_R)){
+      // Do nothing
+     }
+    }
+
+    for (int i=0;i=21;i++){
+     if((i=0)&&(RTD_R_Ref[i] < probe_2_R)){
+      probe_2_T = "Undefined"
+     }
+     else if((i>=1)&&(RTD_R_Ref[i] < probe_2_R)){
+      R_2 = RTD_R_Ref[i+1];
+      T_2 = RTD_T_Ref[i+1];
+      R_1 = RTD_R_Ref[i];
+      T_1 = RTD_R_Ref[i];
+      probe_2_T = T_2 - (((R_2 - probe_2_R)/(R_2 - R_1))*(T_2 - T_1));
+     }
+     else if((i>=1)&&(RTD_R_Ref[i] > probe_2_R)){
+      // Do nothing
+     }
+    }
+
+    for (int i=0;i=21;i++){
+     if((i=0)&&(RTD_R_Ref[i] < probe_3_R)){
+      probe_3_T = "Undefined"
+     }
+     else if((i>=1)&&(RTD_R_Ref[i] < probe_3_R)){
+      R_2 = RTD_R_Ref[i+1];
+      T_2 = RTD_T_Ref[i+1];
+      R_1 = RTD_R_Ref[i];
+      T_1 = RTD_R_Ref[i];
+      probe_3_T = T_2 - (((R_2 - probe_3_R)/(R_2 - R_1))*(T_2 - T_1));
+     }
+     else if((i>=1)&&(RTD_R_Ref[i] > probe_3_R)){
+      // Do nothing
+     }
+    }
+
+   // For the MAX6675 to update, you must delay AT LEAST 250ms between reads!
+   delay(1000);
+}
