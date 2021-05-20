@@ -50,7 +50,7 @@ void loop() {
       R_2 = RTD_R_Ref[i+1];
       T_2 = RTD_T_Ref[i+1];
       R_1 = RTD_R_Ref[i];
-      T_1 = RTD_R_Ref[i];
+      T_1 = RTD_T_Ref[i];
       probe_1_T = T_2 - (((R_2 - probe_1_R)/(R_2 - R_1))*(T_2 - T_1));
      }
      else if((i>=1)&&(RTD_R_Ref[i] > probe_1_R)){
@@ -66,7 +66,7 @@ void loop() {
       R_2 = RTD_R_Ref[i+1];
       T_2 = RTD_T_Ref[i+1];
       R_1 = RTD_R_Ref[i];
-      T_1 = RTD_R_Ref[i];
+      T_1 = RTD_T_Ref[i];
       probe_2_T = T_2 - (((R_2 - probe_2_R)/(R_2 - R_1))*(T_2 - T_1));
      }
      else if((i>=1)&&(RTD_R_Ref[i] > probe_2_R)){
@@ -82,7 +82,7 @@ void loop() {
       R_2 = RTD_R_Ref[i+1];
       T_2 = RTD_T_Ref[i+1];
       R_1 = RTD_R_Ref[i];
-      T_1 = RTD_R_Ref[i];
+      T_1 = RTD_T_Ref[i];
       probe_3_T = T_2 - (((R_2 - probe_3_R)/(R_2 - R_1))*(T_2 - T_1));
      }
      else if((i>=1)&&(RTD_R_Ref[i] > probe_3_R)){
